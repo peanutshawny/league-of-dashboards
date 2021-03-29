@@ -5,7 +5,7 @@ Applying data modeling in MySQL to build an ETL pipeline from the Riot API, resu
 I first extracted match, champion, player, and item data from the Riot API with the list of summoner IDs.
 
 ## Sample queries
-Champion win rate:
+
 ```sql
 SELECT
 
