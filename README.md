@@ -1,14 +1,8 @@
 # lol-player-dashboard
-Applying data modeling in MySQL to build an ETL pipeline from the Riot API, resulting in a dashboard built in Dash that displays player stats to be used as a means of improving one's own gameplay.  
+Applying data modeling in MySQL to build an ETL pipeline from the Riot API, resulting in a database that can be used as a means of improving one's own gameplay. The database is then connected to a Dash app where queries from the database can be visualized in an interative way
 
-## Riot API extract
-I first extracted match, champion, player, and item data from the Riot API with the list of summoner IDs.
-
-## Transforming data
-## Creating MySQL database
-## Loading data into MySQL
 ## Sample queries
-Champion win rate:
+
 ```sql
 SELECT
 
@@ -22,4 +16,3 @@ FROM game_instance
   
 WHERE champion.name = "Ashe"
 ```
-## Dashboard
