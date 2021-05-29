@@ -1,8 +1,5 @@
-# lol-player-database
-Applying data modeling in MySQL to build an ETL pipeline from the Riot API, resulting in a database that can be used as a means of improving one's own gameplay.  
-
-## Riot API extract
-I first extracted match, champion, player, and item data from the Riot API with the list of summoner IDs.
+# lol-player-dashboard
+Applying data modeling in MySQL to build an ETL pipeline from the Riot API, resulting in a database that can be used as a means of improving one's own gameplay. The database is then connected to a Dash app where queries from the database can be visualized in an interative way
 
 ## Sample queries
 
