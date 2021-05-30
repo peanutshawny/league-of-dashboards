@@ -1,11 +1,12 @@
 import mysql.connector
+from db_creds import host, user, passwd, database
 
 # connecting to database
 db = mysql.connector.connect(
-    host='127.0.0.1',
-    user='root',
-    passwd='root',
-    database='lol_dashboard'
+    host=host,
+    user=user,
+    passwd=passwd,
+    database=database
 )
 
 lol_cursor = db.cursor()
