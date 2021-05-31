@@ -11,7 +11,11 @@ db = mysql.connector.connect(
 
 lol_cursor = db.cursor()
 
-test = lol_cursor.execute('select * from champion').fetchone()[0]
+lol_cursor.execute('select * from champion')
+champs = lol_cursor.fetchall()
+
+for champ in champs:
+    print(champ)
 
 # test = lol_cursor.execute('''
 # SELECT
@@ -27,5 +31,3 @@ test = lol_cursor.execute('select * from champion').fetchone()[0]
 # WHERE champion.name = "Ashe";
 # '''
 # ).fetchone()[0]
-
-print(test)
