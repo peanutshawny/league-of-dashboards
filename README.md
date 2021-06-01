@@ -15,11 +15,11 @@ Champion win rates
 ```sql
 SELECT DISTINCT
 	c.name AS champion,
-    sum(gi.Win)/count(gi.Win) AS winrate
+        sum(gi.Win)/count(gi.Win) AS winrate
 FROM game_instance gi
 	INNER JOIN champ_select cs ON gi.SummonerID = cs.SummonerID
 	INNER JOIN game_champ gc ON gi.GameID = gc.GameID AND gc.ChampionID = cs.ChampionID
-    INNER JOIN champion c on gc.ChampionID = c.ID
+        INNER JOIN champion c on gc.ChampionID = c.ID
 GROUP BY
 	c.name
 ```
@@ -28,7 +28,7 @@ Champion pick rates
 ```sql
 SELECT DISTINCT
 	c.name AS champion,
-    (COUNT(ChampionID) OVER (PARTITION BY ChampionID))/(SELECT COUNT(*) FROM game) * 100 AS pickrate
+        (COUNT(ChampionID) OVER (PARTITION BY ChampionID))/(SELECT COUNT(*) FROM game) * 100 AS pickrate
 FROM game_champ gc
 	INNER JOIN champion c ON gc.ChampionID = c.Id
 ```
