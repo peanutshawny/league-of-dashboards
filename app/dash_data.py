@@ -15,7 +15,8 @@ db = mysql.connector.connect(
 winrate_df = pd.read_sql('''
 SELECT DISTINCT
 	c.name AS champion,
-    sum(gi.Win)/count(gi.Win) AS winrate
+    sum(gi.Win)/count(gi.Win) AS winrate,
+    1 - sum(gi.Win)/count(gi.Win) AS loserate
 FROM game_instance gi
 	INNER JOIN champ_select cs ON gi.SummonerID = cs.SummonerID
 	INNER JOIN game_champ gc ON gi.GameID = gc.GameID AND gc.ChampionID = cs.ChampionID
@@ -28,11 +29,23 @@ GROUP BY
 pickrate_df = pd.read_sql('''
 SELECT DISTINCT
 	c.name AS champion,
-    (COUNT(ChampionID) OVER (PARTITION BY ChampionID))/(SELECT COUNT(*) FROM game) * 100 AS pickrate
+    (COUNT(ChampionID) OVER (PARTITION BY ChampionID))/(SELECT COUNT(*) FROM game) AS pickrate
 FROM game_champ gc
 	INNER JOIN champion c ON gc.ChampionID = c.Id
 ''', con=db)
 
-# calculating damage dealt per champion --
+# calculating average damage dealt per champion
+damage_df = pd.read_sql('''
+SELECT DISTINCT
+	c.name AS champion,
+	avg(gi.TotalDamageDealtToChampions) as avg_damage_per_game
+FROM game_instance gi
+	INNER JOIN champ_select cs ON gi.SummonerID = cs.SummonerID
+	INNER JOIN game_champ gc ON gi.GameID = gc.GameID AND gc.ChampionID = cs.ChampionID
+    INNER JOIN champion c on gc.ChampionID = c.ID
+GROUP BY
+	c.name
+ORDER BY
+	avg_damage_per_game
+''', con=db)
 
-print(pickrate_df)
