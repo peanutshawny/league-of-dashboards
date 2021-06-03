@@ -23,13 +23,15 @@ FROM game_instance gi
     INNER JOIN champion c on gc.ChampionID = c.ID
 GROUP BY
 	c.name
-''', con=db)
+''', con=db).set_index('champion')
+
+winrate_df = winrate_df.T
 
 # calculating champion pickrates
 pickrate_df = pd.read_sql('''
 SELECT DISTINCT
 	c.name AS champion,
-    (COUNT(ChampionID) OVER (PARTITION BY ChampionID))/(SELECT COUNT(*) FROM game) AS pickrate
+    (COUNT(ChampionID) OVER (PARTITION BY ChampionID))/(SELECT COUNT(*) FROM game) * 100 AS pickrate
 FROM game_champ gc
 	INNER JOIN champion c ON gc.ChampionID = c.Id
 ''', con=db)
@@ -48,4 +50,3 @@ GROUP BY
 ORDER BY
 	avg_damage_per_game
 ''', con=db)
-
