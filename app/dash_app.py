@@ -54,9 +54,15 @@ app.layout = html.Div([
 
             dcc.Graph(id='pickrate_pie_chart', figure={})
 
-        ], className='six columns')
+        ], className='six columns'),
 
-    ], className='row')
+    ], className='row'),
+
+    html.Div([
+
+        dcc.Graph(id='damage_chart', figure={})
+
+    ])
 
 ])
 
