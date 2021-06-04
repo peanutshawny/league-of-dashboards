@@ -42,7 +42,7 @@ app.layout = html.Div([
 
             ], style={'display': 'flex', 'justifyContent': 'center'}),
 
-            html.Div(),
+            html.Div(id='container', children=[], style={'text-align': 'center'}),
             html.Br(),
 
             dcc.Graph(id='winrate_pie_chart', figure={})
@@ -63,15 +63,18 @@ app.layout = html.Div([
 
 # callbacks to connect plotly graphs with dash components
 @app.callback(
-    Output(component_id='winrate_container', component_property='children'),
+    Output(component_id='container', component_property='children'),
     Output(component_id='winrate_pie_chart', component_property='figure'),
+    Output(component_id='pickrate_pie_chart', component_property='figure'),
     Input(component_id='input_champ', component_property='value')
 )
 def winrate_pie_chart(champ_slctd):
     container = f'The champion last chosen by user was: {champ_slctd}'
 
     winrate_dff = winrate_df.copy()
+    pickrate_dff = pickrate_df.copy()
 
+    # winrate piechart
     winrate_fig = px.pie(
         winrate_dff,
         names=winrate_dff.index,
@@ -80,7 +83,16 @@ def winrate_pie_chart(champ_slctd):
         template='presentation'
     )
 
-    return container, winrate_fig
+    # pickrate piechart
+    pickrate_fig = px.pie(
+        pickrate_dff,
+        names=pickrate_dff.index,
+        values=pickrate_dff[champ_slctd],
+        hole=.3,
+        template='presentation'
+    )
+
+    return container, winrate_fig, pickrate_fig
 
 
 if __name__ == '__main__':
