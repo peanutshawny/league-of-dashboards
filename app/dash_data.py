@@ -25,16 +25,15 @@ GROUP BY
 	c.name
 ''', con=db).set_index('champion')
 
-winrate_df = winrate_df.T
-
 # calculating champion pickrates
 pickrate_df = pd.read_sql('''
 SELECT DISTINCT
 	c.name AS champion,
-    (COUNT(ChampionID) OVER (PARTITION BY ChampionID))/(SELECT COUNT(*) FROM game) * 100 AS pickrate
+    (COUNT(ChampionID) OVER (PARTITION BY ChampionID))/(SELECT COUNT(*) FROM game) AS pickrate,
+    1 - (COUNT(ChampionID) OVER (PARTITION BY ChampionID))/(SELECT COUNT(*) FROM game) AS nopickrate
 FROM game_champ gc
 	INNER JOIN champion c ON gc.ChampionID = c.Id
-''', con=db)
+''', con=db).set_index('champion')
 
 # calculating average damage dealt per champion
 damage_df = pd.read_sql('''
@@ -50,3 +49,7 @@ GROUP BY
 ORDER BY
 	avg_damage_per_game
 ''', con=db)
+
+# transposing in preparation for pie chart
+winrate_df = winrate_df.T
+pickrate_df = pickrate_df.T

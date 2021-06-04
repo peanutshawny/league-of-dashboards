@@ -8,7 +8,18 @@ from dash.dependencies import Input, Output
 
 from dash_data import winrate_df, pickrate_df, damage_df
 
-app = dash.Dash(__name__)
+# external CSS stylesheets
+external_stylesheets = [
+    'https://codepen.io/chriddyp/pen/bWLwgP.css',
+    {
+        'href': 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css',
+        'rel': 'stylesheet',
+        'integrity': 'sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO',
+        'crossorigin': 'anonymous'
+    }
+]
+
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 # app layout
 app.layout = html.Div([
@@ -20,14 +31,18 @@ app.layout = html.Div([
         # first pie chart for winrates
         html.Div([
 
-            dcc.Input(
-                id='input_champ',
-                type='text',
-                placeholder='Input Champion',
-                debounce=True
-            ),
+            html.Div([
 
-            html.Div(id='winrate_container', children=[]),
+                dcc.Input(
+                    id='input_champ',
+                    type='text',
+                    placeholder='Input Champion',
+                    debounce=True
+                )
+
+            ], style={'display': 'flex', 'justifyContent': 'center'}),
+
+            html.Div(),
             html.Br(),
 
             dcc.Graph(id='winrate_pie_chart', figure={})
@@ -45,10 +60,6 @@ app.layout = html.Div([
 
 ])
 
-# css stylesheet - find out why this doesn't work
-app.css.append_css({
-    'external_url': 'https://codepen.io/chriddyp/pen/bWLwgP.css'
-})
 
 # callbacks to connect plotly graphs with dash components
 @app.callback(
@@ -61,7 +72,7 @@ def winrate_pie_chart(champ_slctd):
 
     winrate_dff = winrate_df.copy()
 
-    fig = px.pie(
+    winrate_fig = px.pie(
         winrate_dff,
         names=winrate_dff.index,
         values=winrate_dff[champ_slctd],
@@ -69,7 +80,7 @@ def winrate_pie_chart(champ_slctd):
         template='presentation'
     )
 
-    return container, fig
+    return container, winrate_fig
 
 
 if __name__ == '__main__':
