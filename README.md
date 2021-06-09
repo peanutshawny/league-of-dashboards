@@ -11,6 +11,8 @@ Finally, I wrote scripts to create an empty mysql database and load the aforemen
 ## Creating the dashboard
 Using Dash, I was able to create a simple dashboard which used SQL queries to pull data from the database. The data was then transformed before being inserted into visualizations in the app callback.
 
+![](images/dash_app.png)
+
 ## Sample queries
 
 Champion win rates
