@@ -9,7 +9,7 @@ Finally, I wrote scripts to create an empty mysql database and load the aforemen
 ![](images/data_model.png)
 
 ## Creating the dashboard
-Using Dash, I was able to create a simple dashboard which used SQL queries to pull data from the database. The data was then transformed before being inserted into visualizations in the app callback.
+Using Dash, I was able to create a simple dashboard which used SQL queries to pull data from the database. The data was then transformed before being inserted into visualizations in the app callback. By typing in a champion's name, I can populate the piecharts for both champion win rate and pick rate.
 
 ![](images/dash_app.PNG)
 
